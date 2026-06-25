@@ -36,6 +36,111 @@
   .btn-telegram  { bottom: 8%; left: 36%; width: 28%; height: 7%; }
   .btn-save      { bottom: 8%; right: 5%; width: 28%; height: 7%; }
   .btn-phone     { top: 53%; left: 5%; width: 45%; height: 5%; }
+  /* Modal styles */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-overlay.active {
+    display: flex;
+  }
+  .modal-card {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 30px 24px 24px;
+    width: 85%;
+    max-width: 320px;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    color: #888;
+    font-size: 22px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+  }
+  .modal-photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e8c87a;
+    margin: 0 auto 12px;
+    display: block;
+    background: #2a2a3e;
+  }
+  .modal-name {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .modal-title {
+    text-align: center;
+    font-size: 13px;
+    color: #e8c87a;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .modal-company {
+    text-align: center;
+    font-size: 12px;
+    color: #8899aa;
+    margin-bottom: 18px;
+  }
+  .modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #3a3a5e, transparent);
+    margin-bottom: 16px;
+  }
+  .modal-phone {
+    text-align: center;
+    font-size: 15px;
+    color: #ccc;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .modal-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e8c87a, #d4a843);
+    color: #1a1a2e;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .modal-btn:active {
+    transform: scale(0.97);
+  }
+  .modal-btn svg {
+    vertical-align: -2px;
+    margin-right: 6px;
+  }
+  .modal-hint {
+    text-align: center;
+    font-size: 11px;
+    color: #667;
+    margin-top: 12px;
+  }
 </style>
 </head>
 <body>
@@ -43,7 +148,50 @@
   <div class="btn-zone btn-phone" onclick="window.location.href='tel:+792****8030'"></div>
   <div class="btn-zone btn-whatsapp" onclick="window.open('https://wa.me/79296068030','_blank')"></div>
   <div class="btn-zone btn-telegram" onclick="window.location.href='tg://resolve?domain=ozherelye'"></div>
-  <a class="btn-zone btn-save" href="olga_akimova.vcf" download="olga_akimova.vcf"></a>
+  <div class="btn-zone btn-save" onclick="showModal()"></div>
 </div>
+<!-- Modal -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-photo" id="modalPhoto">👤</div>
+    <div class="modal-name">Ольга Акимова</div>
+    <div class="modal-title">Директор по развитию</div>
+    <div class="modal-company">ООО ИНТЕРКОМ СЕРВИС</div>
+    <div class="modal-divider"></div>
+    <div class="modal-phone">📞 +7 (929) 606-80-30</div>
+    <button class="modal-btn" onclick="saveContact()">
+      💾 Добавить в контакты
+    </button>
+    <div class="modal-hint">Нажми — и контакт сохранится в телефонную книгу</div>
+  </div>
+</div>
+
+<script>
+function showModal() {
+  document.getElementById("contactModal").classList.add("active");
+}
+function closeModal() {
+  document.getElementById("contactModal").classList.remove("active");
+}
+function saveContact() {
+  var vcfUrl = "olga_akimova.vcf";
+  if (navigator.share) {
+    navigator.share({
+      title: "Ольга Акимова",
+      text: "Директор по развитию, ООО ИНТЕРКОМ СЕРВИС\n+7 (929) 606-80-30",
+      files: [new File(["BEGIN:VCARD\nVERSION:3.0\nFN:Ольга Акимова\nTEL;TYPE=CELL:+79296068030\nORG:ООО ИНТЕРКОМ СЕРВИС\nTITLE:Директор по развитию\nEND:VCARD"], "olga_akimova.vcf", {type: "text/vcard"})]
+    }).catch(function() {
+      window.location.href = vcfUrl;
+    });
+  } else {
+    window.location.href = vcfUrl;
+  }
+}
+
+document.getElementById("contactModal").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
 </body>
 </html>
