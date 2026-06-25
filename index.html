@@ -42,23 +42,12 @@
 <div class="page">
   <div class="btn-zone btn-phone" onclick="window.location.href='tel:+792****8030'"></div>
   <div class="btn-zone btn-whatsapp" onclick="window.open('https://wa.me/79296068030','_blank')"></div>
-  <div class="btn-zone btn-telegram" onclick="window.open('https://t.me/ozherelye','_blank')"></div>
+  <div class="btn-zone btn-telegram" onclick="window.location.href='tg://resolve?domain=ozherelye'"></div>
   <div class="btn-zone btn-save" onclick="saveContact()"></div>
 </div>
 <script>
 function saveContact() {
-  const vcard = [
-    'BEGIN:VCARD','VERSION:3.0','FN:Ольга Акимова',
-    'N:Акимова;Ольга','TEL;TYPE=CELL:+792****8030',
-    'ORG:ООО ИНТЕРКОМ СЕРВИС','TITLE:Директор по развитию',
-    'URL:https://t.me/ozherelye','END:VCARD'
-  ].join('\n');
-  const blob = new Blob([vcard], {type:'text/vcard;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download='olga_akimova.vcf';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a); URL.revokeObjectURL(url);
+  window.location.href = 'data:text/vcard;base64,QkVHSU46VkNBUkQKVkVSU0lPTjozLjAKRk460J7Qu9GM0LPQsCDQkNC60LjQvNC+0LLQsApOOtCQ0LrQuNC80L7QstCwO9Ce0LvRjNCz0LAKVEVMO1RZUEU9Q0VMTDorNzkyOTYwNjgwMzAKT1JHOtCe0J7QniDQmNCd0KLQldCg0JrQntCcINCh0JXQoNCS0JjQoQpUSVRMRTrQlNC40YDQtdC60YLQvtGAINC/0L4g0YDQsNC30LLQuNGC0LjRjgpVUkw6aHR0cHM6Ly90Lm1lL296aGVyZWx5ZQpFTkQ6VkNBUkQ=';
 }
 </script>
 </body>
