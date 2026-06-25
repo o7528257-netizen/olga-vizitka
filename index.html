@@ -47,7 +47,28 @@
 </div>
 <script>
 function saveContact() {
-  window.location.href = 'data:text/vcard;base64,QkVHSU46VkNBUkQKVkVSU0lPTjozLjAKRk460J7Qu9GM0LPQsCDQkNC60LjQvNC+0LLQsApOOtCQ0LrQuNC80L7QstCwO9Ce0LvRjNCz0LAKVEVMO1RZUEU9Q0VMTDorNzkyOTYwNjgwMzAKT1JHOtCe0J7QniDQmNCd0KLQldCg0JrQntCcINCh0JXQoNCS0JjQoQpUSVRMRTrQlNC40YDQtdC60YLQvtGAINC/0L4g0YDQsNC30LLQuNGC0LjRjgpVUkw6aHR0cHM6Ly90Lm1lL296aGVyZWx5ZQpFTkQ6VkNBUkQ=';
+  // Try multiple methods for maximum compatibility
+  var vcard = 'data:text/vcard;base64,QkVHSU46VkNBUkQKVkVSU0lPTjozLjAKRk460J7Qu9GM0LPQsCDQkNC60LjQvNC+0LLQsApOOtCQ0LrQuNC80L7QstCwO9Ce0LvRjNCz0LAKVEVMO1RZUEU9Q0VMTDorNzkyKioqKjgwMzAKT1JHOtCe0J7QniDQmNCd0KLQldCg0JrQntCcINCh0JXQoNCS0JjQoQpUSVRMRTrQlNC40YDQtdC60YLQvtGAINC/0L4g0YDQsNC30LLQuNGC0LjRjgpVUkw6aHR0cHM6Ly90Lm1lL296aGVyZWx5ZQpFTkQ6VkNBUkQ=';
+
+  // Method 1: Open in new window (works in most browsers)
+  var w = window.open(vcard, '_blank');
+  if (w) { w.focus(); }
+
+  // Method 2: Create link with download (fallback)
+  setTimeout(function() {
+    var a = document.createElement('a');
+    a.href = vcard;
+    a.download = 'olga_akimova.vcf';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() { document.body.removeChild(a); }, 100);
+  }, 100);
+
+  // Method 3: Navigate directly (last resort)
+  setTimeout(function() {
+    window.location.href = vcard;
+  }, 500);
 }
 </script>
 </body>
